@@ -1,4 +1,4 @@
-# TIP Security Rules — 2.0.0
+# TIP Security Rules — 2.1.0
 
 一般的なセキュリティベースラインと、社会的に問題化した脅威に対する緊急点検を分離して配信します。初期配信は **OWASP Top 10:2025（10項目）** と **NICT A2B注意喚起（7項目）** です。公式情報の確認日: 2026-10-21。
 
@@ -67,6 +67,41 @@ mkdir -p security
 ```
 
 正規表現はTS/JSコードの要確認箇所を探す補助です。検出結果は常に`review_required`、全体は`unverified`とし、検出ゼロでも適合判定を出しません。`scan`の終了コード0は走査成功を意味します。CIの合否には`check`を使ってください。ログ監視設定、API認可、SSRF、侵害の有無を正規表現だけで判断することはできません。`exclude_pattern`によるファイル単位の抑制は設けていません。
+
+## 決定論的な検出（`detect`）
+
+ルールに `detect` を書くと、[Codes Doctor](https://github.com/masahiroid/codes-doctor-vscode) 7.0以降が正規表現ではなくデータフロー解析で判定します。外部入力（`req.query`、`$_GET` 等）が危険な処理に届く箇所だけを、入力元から到達先までの経路付きで示します。`detect` があるルールでは `pattern` は使われません（`pattern` は旧版と `scripts/rules.py scan` 向けに残せます）。
+
+```yaml
+  detect:
+    type: taint                  # 現在はtaintのみ
+    languages: [typescript, php] # typescriptはJavaScriptファイルも対象
+    sinks:
+    - builtin: SQL Injection     # 組み込みの危険な処理を使う
+    - callee: repo\.find(?:One|ById)   # 独自の呼び出し（呼び出し名全体に一致する正規表現）
+      argument: 0                # 調べる引数（省略時は全引数）
+    sources:                     # 任意: 組み込みの入力元に追加
+    - \bevent\.body\b
+    sanitizers:                  # 任意: 通ると安全とみなす関数（呼び出し名全体に一致）
+    - assertOwner
+    builtin_sources: true        # 任意: falseで組み込みの入力元を使わない
+```
+
+| 項目 | 内容 |
+| --- | --- |
+| `builtin` | `SQL Injection`、`Command Injection`、`Code Injection`、`SSRF`、`Path Traversal`、`XSS` |
+| `languages` | `typescript`、`javascript`、`php`、`python`、`go`、`java`、`csharp`、`rust`、`cpp`（Codes Doctor 7.0のセキュリティルール走査はTS/JSとPHPのみ） |
+| 正規表現 | 300文字以内。`(a+)+` のような入れ子の量指定子は拒否されます |
+
+判定は関数単位です。関数・ファイルをまたぐ流れは追跡しないため、「到達なし」は安全の証明になりません。認可不備（BOLA）のように「〜を通らずに」を判定する必要がある項目は、まだ `detect` で表現できません。誤検知の多い正規表現を付けず、点検手順だけで配信してください。
+
+### 既存ルールの書き換え手順
+
+1. `packs/*.yaml` の該当ルールに `detect` を追加する。組み込みの `builtin` で足りるかを先に確認する。
+2. 誤検知の多い `pattern` は削除する（`pattern_semantics` も一緒に削除）。
+3. パックの `version` と `scripts/rules.py` の `VERSION` を上げる。既存の証跡は再点検が必要になる。
+4. `validate`、テスト、`build` を実行し、`packs/` と `dist/` を一緒にコミットする。
+5. Codes Doctorの `codeDoctor.securityRules.sourceUrl` に `file:///…/dist/manifest.json` を設定し、公開前に手元のコードで結果を確認する。
 
 ## 全社への強制適用
 

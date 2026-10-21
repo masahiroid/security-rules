@@ -6,17 +6,17 @@
       "file": "nict-a2b-2026-10.json",
       "id": "nict-a2b-2026-10",
       "mandatory": true,
-      "sha256": "f48c8b2f9a0a7738175508a7db43ba72ea217081adc5be9cf10afbf79dc1733d",
-      "version": "2.0.0"
+      "sha256": "a99420a6829f110dd384178253e4eb8dbfaa4a795e23c6e70c975c5ca95bbadd",
+      "version": "2.1.0"
     },
     {
       "channel": "baseline",
       "file": "owasp-top10-2025.json",
       "id": "owasp-top10-2025",
       "mandatory": false,
-      "sha256": "1fae5101969c9e6d476db0059040dba9785c52270af698a54f1243f4dce07522",
-      "version": "2.0.0"
+      "sha256": "3943b29408f9f33d2205250fb36319eb2b4e90bbabd9427433394eb4463aa65b",
+      "version": "2.1.0"
     }
   ],
-  "version": "2.0.0"
+  "version": "2.1.0"
 }

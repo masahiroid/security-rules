@@ -69,7 +69,8 @@ class RulesTest(unittest.TestCase):
             result = rules.scan(self.packs, source)
             self.assertEqual('unverified', result['compliance'])
             self.assertTrue(any(r['rule_id'] == 'OWASP-SQLI-001' for r in result['candidates']))
-            self.assertTrue(any(r['rule_id'] == 'EMERG-NICT-A2B-BOLA' for r in result['candidates']))
+            # BOLA has no pattern: a route-shaped regex flagged every endpoint. It is a manual check until a detector exists.
+            self.assertFalse(any(r['rule_id'] == 'EMERG-NICT-A2B-BOLA' for r in result['candidates']))
             self.assertTrue(rules.check(self.packs, rules.template(self.packs, 'service/prod'), 'service/prod', self.now))
 
 

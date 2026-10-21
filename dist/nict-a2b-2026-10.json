@@ -43,8 +43,6 @@
       },
       "id": "EMERG-NICT-A2B-BOLA",
       "message": "NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。",
-      "pattern": "router\\.(?:get|post|put|patch|delete)\\s*\\(\\s*[\\x27\\x22]/api/",
-      "pattern_semantics": "review_candidate",
       "required": true,
       "severity": "error",
       "source_urls": [
@@ -63,6 +61,18 @@
         "URL入力・リダイレクト・名前解決を確認し、内部ネットワークやメタデータへの到達を制限する。",
         "許可された試験環境で制限の有効性を検証し、結果を添付する。"
       ],
+      "detect": {
+        "languages": [
+          "typescript",
+          "php"
+        ],
+        "sinks": [
+          {
+            "builtin": "SSRF"
+          }
+        ],
+        "type": "taint"
+      },
       "excel_mapping": {
         "action_required": "要対応",
         "column": "SSRF"
@@ -88,6 +98,21 @@
         "外部入力からコード実行・シェル実行・ファイル処理へ至る経路を点検する。",
         "危険な呼び出しの除去、入力制約、実行権限の最小化を確認する。"
       ],
+      "detect": {
+        "languages": [
+          "typescript",
+          "php"
+        ],
+        "sinks": [
+          {
+            "builtin": "Command Injection"
+          },
+          {
+            "builtin": "Code Injection"
+          }
+        ],
+        "type": "taint"
+      },
       "excel_mapping": {
         "action_required": "要対応",
         "column": "RCE"
@@ -113,6 +138,18 @@
       "check_steps": [
         "API入力がSQLへ渡る経路を列挙し、パラメータ化と入力処理の実装・試験結果を確認する。"
       ],
+      "detect": {
+        "languages": [
+          "typescript",
+          "php"
+        ],
+        "sinks": [
+          {
+            "builtin": "SQL Injection"
+          }
+        ],
+        "type": "taint"
+      },
       "excel_mapping": {
         "action_required": "要対応",
         "column": "SQLインジェクション"
@@ -185,5 +222,5 @@
     }
   ],
   "source_verified_at": "2026-10-21",
-  "version": "2.0.0"
+  "version": "2.1.0"
 }

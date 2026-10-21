@@ -132,12 +132,108 @@
                 "minLength": 1
               },
               "action_required": {
-                "const": "\u8981\u5bfe\u5fdc"
+                "const": "要対応"
               }
             }
           },
           "pattern_semantics": {
             "const": "review_candidate"
+          },
+          "detect": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "languages",
+              "sinks"
+            ],
+            "properties": {
+              "type": {
+                "const": "taint"
+              },
+              "languages": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "typescript",
+                    "javascript",
+                    "php",
+                    "python",
+                    "go",
+                    "java",
+                    "csharp",
+                    "rust",
+                    "cpp"
+                  ]
+                }
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 300
+                }
+              },
+              "sanitizers": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 300
+                }
+              },
+              "builtin_sources": {
+                "type": "boolean"
+              },
+              "sinks": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "builtin"
+                      ],
+                      "properties": {
+                        "builtin": {
+                          "enum": [
+                            "Command Injection",
+                            "SQL Injection",
+                            "Code Injection",
+                            "Path Traversal",
+                            "SSRF",
+                            "XSS"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "callee"
+                      ],
+                      "properties": {
+                        "callee": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 300
+                        },
+                        "argument": {
+                          "type": "integer",
+                          "minimum": 0
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "dependentRequired": {

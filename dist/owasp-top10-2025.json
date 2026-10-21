@@ -110,6 +110,18 @@
       "check_steps": [
         "SQLのパラメータ化とOSコマンド・テンプレートの入力処理を検証する。"
       ],
+      "detect": {
+        "languages": [
+          "typescript",
+          "php"
+        ],
+        "sinks": [
+          {
+            "builtin": "SQL Injection"
+          }
+        ],
+        "type": "taint"
+      },
       "excel_mapping": {
         "action_required": "要対応",
         "column": "インジェクション"
@@ -258,5 +270,5 @@
     }
   ],
   "source_verified_at": "2026-10-21",
-  "version": "2.0.0"
+  "version": "2.1.0"
 }

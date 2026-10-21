@@ -1,5 +1,5 @@
 id: owasp-top10-2025
-version: 2.0.0
+version: 2.1.0
 description: OWASP Top 10:2025 review checklist
 channel: baseline
 published_at: '2026-10-21'
@@ -102,6 +102,13 @@ rules:
   owasp_category: A05:2025
   pattern: (?:query|execute)\s*\(\s*`[^`]*\$\{
   pattern_semantics: review_candidate
+  detect:
+    type: taint
+    languages:
+    - typescript
+    - php
+    sinks:
+    - builtin: SQL Injection
 - id: OWASP-2025-A06
   title: 安全な設計
   category: OWASP Top 10 A06:2025

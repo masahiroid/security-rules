@@ -1,5 +1,5 @@
 id: nict-a2b-2026-10
-version: 2.0.0
+version: 2.1.0
 description: NICT LETTICE A2B alert response checklist
 channel: emergency
 published_at: '2026-10-21'
@@ -43,8 +43,6 @@ rules:
   excel_mapping:
     column: 認可不備 (IDOR/BOLA)
     action_required: 要対応
-  pattern: router\.(?:get|post|put|patch|delete)\s*\(\s*[\x27\x22]/api/
-  pattern_semantics: review_candidate
 - id: EMERG-NICT-A2B-SSRF
   title: 【A2B緊急】SSRFの点検
   category: Emergency / NICT A2B 2026-10-13
@@ -64,6 +62,13 @@ rules:
   excel_mapping:
     column: SSRF
     action_required: 要対応
+  detect:
+    type: taint
+    languages:
+    - typescript
+    - php
+    sinks:
+    - builtin: SSRF
 - id: EMERG-NICT-A2B-RCE
   title: 【A2B緊急】コード・コマンド実行経路の点検
   category: Emergency / NICT A2B 2026-10-13
@@ -84,6 +89,14 @@ rules:
     action_required: 要対応
   pattern: \b(?:eval|exec|execSync)\s*\(
   pattern_semantics: review_candidate
+  detect:
+    type: taint
+    languages:
+    - typescript
+    - php
+    sinks:
+    - builtin: Command Injection
+    - builtin: Code Injection
 - id: EMERG-NICT-A2B-SQLI
   title: 【A2B緊急】SQLインジェクションの点検
   category: Emergency / NICT A2B 2026-10-13
@@ -103,6 +116,13 @@ rules:
     action_required: 要対応
   pattern: (?:query|execute)\s*\(\s*`[^`]*\$\{
   pattern_semantics: review_candidate
+  detect:
+    type: taint
+    languages:
+    - typescript
+    - php
+    sinks:
+    - builtin: SQL Injection
 - id: EMERG-NICT-A2B-EXPOSURE
   title: 【A2B緊急】不要APIと設定の点検
   category: Emergency / NICT A2B 2026-10-13
