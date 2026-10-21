@@ -1,0 +1,199 @@
+id: owasp-top10-2025
+version: 2.0.0
+description: OWASP Top 10:2025 review checklist
+channel: baseline
+published_at: '2026-10-21'
+source_verified_at: '2026-10-21'
+mandatory: false
+rules:
+- id: OWASP-2025-A01
+  title: アクセス制御
+  category: OWASP Top 10 A01:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 利用者・テナントを越えるアクセスを防止する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - 別ユーザーのIDと別テナントでAPIの拒否を確認し、認可テスト結果を添付する。
+  excel_mapping:
+    column: アクセス制御
+    action_required: 要対応
+  owasp_category: A01:2025
+- id: OWASP-2025-A02
+  title: セキュリティ設定
+  category: OWASP Top 10 A02:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 本番環境の公開範囲と設定を確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - デバッグ、管理画面、CORS、詳細エラー、不要APIの本番設定を確認する。
+  excel_mapping:
+    column: セキュリティ設定
+    action_required: 要対応
+  owasp_category: A02:2025
+- id: OWASP-2025-A03
+  title: ソフトウェアサプライチェーン
+  category: OWASP Top 10 A03:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 依存関係とビルド経路を点検する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - SBOM、脆弱性検査、ロックファイル、CIの権限と依存更新の確認記録を添付する。
+  excel_mapping:
+    column: ソフトウェアサプライチェーン
+    action_required: 要対応
+  owasp_category: A03:2025
+- id: OWASP-2025-A04
+  title: 暗号化
+  category: OWASP Top 10 A04:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 機密情報の保存・通信と鍵管理を確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - TLS設定、保存時暗号化、鍵の保管・更新とパスワードハッシュを確認する。
+  excel_mapping:
+    column: 暗号化
+    action_required: 要対応
+  owasp_category: A04:2025
+- id: OWASP-SQLI-001
+  title: インジェクション
+  category: OWASP Top 10 A05:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  message: SQL等への未検証入力の混入を確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - SQLのパラメータ化とOSコマンド・テンプレートの入力処理を検証する。
+  excel_mapping:
+    column: インジェクション
+    action_required: 要対応
+  owasp_category: A05:2025
+  pattern: (?:query|execute)\s*\(\s*`[^`]*\$\{
+  pattern_semantics: review_candidate
+- id: OWASP-2025-A06
+  title: 安全な設計
+  category: OWASP Top 10 A06:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 設計時の脅威と業務ロジック悪用を確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - 脅威モデル、濫用シナリオ、数量・金額・権限の制約のレビュー結果を添付する。
+  excel_mapping:
+    column: 安全な設計
+    action_required: 要対応
+  owasp_category: A06:2025
+- id: OWASP-2025-A07
+  title: 認証
+  category: OWASP Top 10 A07:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: ログインとセッションの安全性を確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - 認証試行制限、MFA、セッション期限、無効化と回復フローを検証する。
+  excel_mapping:
+    column: 認証
+    action_required: 要対応
+  owasp_category: A07:2025
+- id: OWASP-2025-A08
+  title: ソフトウェア・データの完全性
+  category: OWASP Top 10 A08:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 更新とデータ取り込みの信頼性を確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - 成果物の署名・ハッシュ検証、信頼元、デシリアライズ処理を点検する。
+  excel_mapping:
+    column: ソフトウェア・データの完全性
+    action_required: 要対応
+  owasp_category: A08:2025
+- id: OWASP-2025-A09
+  title: ログとアラート
+  category: OWASP Top 10 A09:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 検知から通知まで実際に動作するか確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - 認証失敗・認可拒否のログと通知をテストし、保管・閲覧権限を確認する。
+  excel_mapping:
+    column: ログとアラート
+    action_required: 要対応
+  owasp_category: A09:2025
+- id: OWASP-2025-A10
+  title: 例外状態の処理
+  category: OWASP Top 10 A10:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 障害時も安全な状態を維持する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - タイムアウト・例外・資源枯渇をテストし、処理中断とロールバックを確認する。
+  excel_mapping:
+    column: 例外状態の処理
+    action_required: 要対応
+  owasp_category: A10:2025

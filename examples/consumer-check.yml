@@ -1,0 +1,33 @@
+# Copy to the consumer repository's .github/workflows/security-review.yml.
+# Configure branch/ruleset protection to require `security-review`.
+name: Mandatory security review
+on:
+  pull_request:
+  push:
+  schedule:
+    - cron: '0 0 * * *'
+permissions:
+  contents: read
+jobs:
+  security-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: masahiroid/security-rules
+          ref: main
+          path: .security-rules
+          # For private distribution, configure a read-only GitHub App token here.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install -r .security-rules/requirements.txt
+      - name: Require current emergency evidence
+        env:
+          TARGET: ${{ github.repository }}/production
+        run: >-
+          python .security-rules/scripts/rules.py check
+          --channel emergency
+          --target "$TARGET"
+          --evidence security/evidence.json

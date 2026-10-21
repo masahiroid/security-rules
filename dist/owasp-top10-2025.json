@@ -1,0 +1,262 @@
+{
+  "channel": "baseline",
+  "description": "OWASP Top 10:2025 review checklist",
+  "id": "owasp-top10-2025",
+  "mandatory": false,
+  "published_at": "2026-10-21",
+  "rules": [
+    {
+      "category": "OWASP Top 10 A01:2025",
+      "check_steps": [
+        "別ユーザーのIDと別テナントでAPIの拒否を確認し、認可テスト結果を添付する。"
+      ],
+      "excel_mapping": {
+        "action_required": "要対応",
+        "column": "アクセス制御"
+      },
+      "id": "OWASP-2025-A01",
+      "message": "利用者・テナントを越えるアクセスを防止する",
+      "owasp_category": "A01:2025",
+      "required": true,
+      "severity": "error",
+      "source_urls": [
+        "https://top10.owasp.org/2025/0x00_2025-Introduction/"
+      ],
+      "target_languages": [
+        "typescript",
+        "javascript",
+        "json"
+      ],
+      "title": "アクセス制御",
+      "verification": "manual"
+    },
+    {
+      "category": "OWASP Top 10 A02:2025",
+      "check_steps": [
+        "デバッグ、管理画面、CORS、詳細エラー、不要APIの本番設定を確認する。"
+      ],
+      "excel_mapping": {
+        "action_required": "要対応",
+        "column": "セキュリティ設定"
+      },
+      "id": "OWASP-2025-A02",
+      "message": "本番環境の公開範囲と設定を確認する",
+      "owasp_category": "A02:2025",
+      "required": true,
+      "severity": "error",
+      "source_urls": [
+        "https://top10.owasp.org/2025/0x00_2025-Introduction/"
+      ],
+      "target_languages": [
+        "typescript",
+        "javascript",
+        "json"
+      ],
+      "title": "セキュリティ設定",
+      "verification": "manual"
+    },
+    {
+      "category": "OWASP Top 10 A03:2025",
+      "check_steps": [
+        "SBOM、脆弱性検査、ロックファイル、CIの権限と依存更新の確認記録を添付する。"
+      ],
+      "excel_mapping": {
+        "action_required": "要対応",
+        "column": "ソフトウェアサプライチェーン"
+      },
+      "id": "OWASP-2025-A03",
+      "message": "依存関係とビルド経路を点検する",
+      "owasp_category": "A03:2025",
+      "required": true,
+      "severity": "error",
+      "source_urls": [
+        "https://top10.owasp.org/2025/0x00_2025-Introduction/"
+      ],
+      "target_languages": [
+        "typescript",
+        "javascript",
+        "json"
+      ],
+      "title": "ソフトウェアサプライチェーン",
+      "verification": "manual"
+    },
+    {
+      "category": "OWASP Top 10 A04:2025",
+      "check_steps": [
+        "TLS設定、保存時暗号化、鍵の保管・更新とパスワードハッシュを確認する。"
+      ],
+      "excel_mapping": {
+        "action_required": "要対応",
+        "column": "暗号化"
+      },
+      "id": "OWASP-2025-A04",
+      "message": "機密情報の保存・通信と鍵管理を確認する",
+      "owasp_category": "A04:2025",
+      "required": true,
+      "severity": "error",
+      "source_urls": [
+        "https://top10.owasp.org/2025/0x00_2025-Introduction/"
+      ],
+      "target_languages": [
+        "typescript",
+        "javascript",
+        "json"
+      ],
+      "title": "暗号化",
+      "verification": "manual"
+    },
+    {
+      "category": "OWASP Top 10 A05:2025",
+      "check_steps": [
+        "SQLのパラメータ化とOSコマンド・テンプレートの入力処理を検証する。"
+      ],
+      "excel_mapping": {
+        "action_required": "要対応",
+        "column": "インジェクション"
+      },
+      "id": "OWASP-SQLI-001",
+      "message": "SQL等への未検証入力の混入を確認する",
+      "owasp_category": "A05:2025",
+      "pattern": "(?:query|execute)\\s*\\(\\s*`[^`]*\\$\\{",
+      "pattern_semantics": "review_candidate",
+      "required": true,
+      "severity": "error",
+      "source_urls": [
+        "https://top10.owasp.org/2025/0x00_2025-Introduction/"
+      ],
+      "target_languages": [
+        "typescript",
+        "javascript"
+      ],
+      "title": "インジェクション",
+      "verification": "manual"
+    },
+    {
+      "category": "OWASP Top 10 A06:2025",
+      "check_steps": [
+        "脅威モデル、濫用シナリオ、数量・金額・権限の制約のレビュー結果を添付する。"
+      ],
+      "excel_mapping": {
+        "action_required": "要対応",
+        "column": "安全な設計"
+      },
+      "id": "OWASP-2025-A06",
+      "message": "設計時の脅威と業務ロジック悪用を確認する",
+      "owasp_category": "A06:2025",
+      "required": true,
+      "severity": "error",
+      "source_urls": [
+        "https://top10.owasp.org/2025/0x00_2025-Introduction/"
+      ],
+      "target_languages": [
+        "typescript",
+        "javascript",
+        "json"
+      ],
+      "title": "安全な設計",
+      "verification": "manual"
+    },
+    {
+      "category": "OWASP Top 10 A07:2025",
+      "check_steps": [
+        "認証試行制限、MFA、セッション期限、無効化と回復フローを検証する。"
+      ],
+      "excel_mapping": {
+        "action_required": "要対応",
+        "column": "認証"
+      },
+      "id": "OWASP-2025-A07",
+      "message": "ログインとセッションの安全性を確認する",
+      "owasp_category": "A07:2025",
+      "required": true,
+      "severity": "error",
+      "source_urls": [
+        "https://top10.owasp.org/2025/0x00_2025-Introduction/"
+      ],
+      "target_languages": [
+        "typescript",
+        "javascript",
+        "json"
+      ],
+      "title": "認証",
+      "verification": "manual"
+    },
+    {
+      "category": "OWASP Top 10 A08:2025",
+      "check_steps": [
+        "成果物の署名・ハッシュ検証、信頼元、デシリアライズ処理を点検する。"
+      ],
+      "excel_mapping": {
+        "action_required": "要対応",
+        "column": "ソフトウェア・データの完全性"
+      },
+      "id": "OWASP-2025-A08",
+      "message": "更新とデータ取り込みの信頼性を確認する",
+      "owasp_category": "A08:2025",
+      "required": true,
+      "severity": "error",
+      "source_urls": [
+        "https://top10.owasp.org/2025/0x00_2025-Introduction/"
+      ],
+      "target_languages": [
+        "typescript",
+        "javascript",
+        "json"
+      ],
+      "title": "ソフトウェア・データの完全性",
+      "verification": "manual"
+    },
+    {
+      "category": "OWASP Top 10 A09:2025",
+      "check_steps": [
+        "認証失敗・認可拒否のログと通知をテストし、保管・閲覧権限を確認する。"
+      ],
+      "excel_mapping": {
+        "action_required": "要対応",
+        "column": "ログとアラート"
+      },
+      "id": "OWASP-2025-A09",
+      "message": "検知から通知まで実際に動作するか確認する",
+      "owasp_category": "A09:2025",
+      "required": true,
+      "severity": "error",
+      "source_urls": [
+        "https://top10.owasp.org/2025/0x00_2025-Introduction/"
+      ],
+      "target_languages": [
+        "typescript",
+        "javascript",
+        "json"
+      ],
+      "title": "ログとアラート",
+      "verification": "manual"
+    },
+    {
+      "category": "OWASP Top 10 A10:2025",
+      "check_steps": [
+        "タイムアウト・例外・資源枯渇をテストし、処理中断とロールバックを確認する。"
+      ],
+      "excel_mapping": {
+        "action_required": "要対応",
+        "column": "例外状態の処理"
+      },
+      "id": "OWASP-2025-A10",
+      "message": "障害時も安全な状態を維持する",
+      "owasp_category": "A10:2025",
+      "required": true,
+      "severity": "error",
+      "source_urls": [
+        "https://top10.owasp.org/2025/0x00_2025-Introduction/"
+      ],
+      "target_languages": [
+        "typescript",
+        "javascript",
+        "json"
+      ],
+      "title": "例外状態の処理",
+      "verification": "manual"
+    }
+  ],
+  "source_verified_at": "2026-10-21",
+  "version": "2.0.0"
+}

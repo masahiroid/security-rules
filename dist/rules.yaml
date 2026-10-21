@@ -1,0 +1,329 @@
+version: 2.0.0
+description: TIP Emergency & Regulatory Threat Rules
+rules:
+- id: EMERG-NICT-A2B-LOG-AUDIT
+  title: 【A2B緊急】侵害痕跡のログ調査
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - アプリから利用可能な公開API・サーバとログの保存範囲を洗い出す。
+  - 連番ID探索、大量取得、認証・認可異常と公式PDF記載IoCを調査し、対象期間・検索条件・結果を記録する。調査期間は自社の保管状況と詳細注意喚起を踏まえて決める。
+  excel_mapping:
+    column: 侵害有無のログ確認
+    action_required: 要対応
+- id: EMERG-NICT-A2B-BOLA
+  title: 【A2B緊急】オブジェクト単位の認可確認
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - セッションのユーザー・テナントと要求対象の所有権をサーバ側で照合する。
+  - 他ユーザーのIDに差し替えた取得・変更・削除要求が拒否されることを実行テストする。
+  excel_mapping:
+    column: 認可不備 (IDOR/BOLA)
+    action_required: 要対応
+  pattern: router\.(?:get|post|put|patch|delete)\s*\(\s*[\x27\x22]/api/
+  pattern_semantics: review_candidate
+- id: EMERG-NICT-A2B-SSRF
+  title: 【A2B緊急】SSRFの点検
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - URL入力・リダイレクト・名前解決を確認し、内部ネットワークやメタデータへの到達を制限する。
+  - 許可された試験環境で制限の有効性を検証し、結果を添付する。
+  excel_mapping:
+    column: SSRF
+    action_required: 要対応
+- id: EMERG-NICT-A2B-RCE
+  title: 【A2B緊急】コード・コマンド実行経路の点検
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - 外部入力からコード実行・シェル実行・ファイル処理へ至る経路を点検する。
+  - 危険な呼び出しの除去、入力制約、実行権限の最小化を確認する。
+  excel_mapping:
+    column: RCE
+    action_required: 要対応
+  pattern: \b(?:eval|exec|execSync)\s*\(
+  pattern_semantics: review_candidate
+- id: EMERG-NICT-A2B-SQLI
+  title: 【A2B緊急】SQLインジェクションの点検
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - API入力がSQLへ渡る経路を列挙し、パラメータ化と入力処理の実装・試験結果を確認する。
+  excel_mapping:
+    column: SQLインジェクション
+    action_required: 要対応
+  pattern: (?:query|execute)\s*\(\s*`[^`]*\$\{
+  pattern_semantics: review_candidate
+- id: EMERG-NICT-A2B-EXPOSURE
+  title: 【A2B緊急】不要APIと設定の点検
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - 旧API・検証環境・管理画面を棚卸しし、不要な公開を停止または制限する。
+  - /v1/等のバージョン名だけで危険と断定せず、用途と認証・認可・公開範囲を確認する。
+  excel_mapping:
+    column: 不要な公開範囲 (旧API・検証環境・管理画面)
+    action_required: 要対応
+- id: EMERG-NICT-A2B-MITIGATION
+  title: 【A2B緊急】暫定緩和と認証情報の見直し
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - 不要API停止・アクセス制限・監視強化を検討し、実施内容と残存リスクを記録する。
+  - 漏洩が疑われる認証情報を無効化・再発行する。レート制限の設定と動作を確認する。
+  excel_mapping:
+    column: 暫定的な緩和策
+    action_required: 要対応
+- id: OWASP-2025-A01
+  title: アクセス制御
+  category: OWASP Top 10 A01:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 利用者・テナントを越えるアクセスを防止する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - 別ユーザーのIDと別テナントでAPIの拒否を確認し、認可テスト結果を添付する。
+  excel_mapping:
+    column: アクセス制御
+    action_required: 要対応
+  owasp_category: A01:2025
+- id: OWASP-2025-A02
+  title: セキュリティ設定
+  category: OWASP Top 10 A02:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 本番環境の公開範囲と設定を確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - デバッグ、管理画面、CORS、詳細エラー、不要APIの本番設定を確認する。
+  excel_mapping:
+    column: セキュリティ設定
+    action_required: 要対応
+  owasp_category: A02:2025
+- id: OWASP-2025-A03
+  title: ソフトウェアサプライチェーン
+  category: OWASP Top 10 A03:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 依存関係とビルド経路を点検する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - SBOM、脆弱性検査、ロックファイル、CIの権限と依存更新の確認記録を添付する。
+  excel_mapping:
+    column: ソフトウェアサプライチェーン
+    action_required: 要対応
+  owasp_category: A03:2025
+- id: OWASP-2025-A04
+  title: 暗号化
+  category: OWASP Top 10 A04:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 機密情報の保存・通信と鍵管理を確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - TLS設定、保存時暗号化、鍵の保管・更新とパスワードハッシュを確認する。
+  excel_mapping:
+    column: 暗号化
+    action_required: 要対応
+  owasp_category: A04:2025
+- id: OWASP-SQLI-001
+  title: インジェクション
+  category: OWASP Top 10 A05:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  message: SQL等への未検証入力の混入を確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - SQLのパラメータ化とOSコマンド・テンプレートの入力処理を検証する。
+  excel_mapping:
+    column: インジェクション
+    action_required: 要対応
+  owasp_category: A05:2025
+  pattern: (?:query|execute)\s*\(\s*`[^`]*\$\{
+  pattern_semantics: review_candidate
+- id: OWASP-2025-A06
+  title: 安全な設計
+  category: OWASP Top 10 A06:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 設計時の脅威と業務ロジック悪用を確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - 脅威モデル、濫用シナリオ、数量・金額・権限の制約のレビュー結果を添付する。
+  excel_mapping:
+    column: 安全な設計
+    action_required: 要対応
+  owasp_category: A06:2025
+- id: OWASP-2025-A07
+  title: 認証
+  category: OWASP Top 10 A07:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: ログインとセッションの安全性を確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - 認証試行制限、MFA、セッション期限、無効化と回復フローを検証する。
+  excel_mapping:
+    column: 認証
+    action_required: 要対応
+  owasp_category: A07:2025
+- id: OWASP-2025-A08
+  title: ソフトウェア・データの完全性
+  category: OWASP Top 10 A08:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 更新とデータ取り込みの信頼性を確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - 成果物の署名・ハッシュ検証、信頼元、デシリアライズ処理を点検する。
+  excel_mapping:
+    column: ソフトウェア・データの完全性
+    action_required: 要対応
+  owasp_category: A08:2025
+- id: OWASP-2025-A09
+  title: ログとアラート
+  category: OWASP Top 10 A09:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 検知から通知まで実際に動作するか確認する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - 認証失敗・認可拒否のログと通知をテストし、保管・閲覧権限を確認する。
+  excel_mapping:
+    column: ログとアラート
+    action_required: 要対応
+  owasp_category: A09:2025
+- id: OWASP-2025-A10
+  title: 例外状態の処理
+  category: OWASP Top 10 A10:2025
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: 障害時も安全な状態を維持する
+  verification: manual
+  required: true
+  source_urls:
+  - https://top10.owasp.org/2025/0x00_2025-Introduction/
+  check_steps:
+  - タイムアウト・例外・資源枯渇をテストし、処理中断とロールバックを確認する。
+  excel_mapping:
+    column: 例外状態の処理
+    action_required: 要対応
+  owasp_category: A10:2025

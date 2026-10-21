@@ -1,0 +1,144 @@
+id: nict-a2b-2026-10
+version: 2.0.0
+description: NICT LETTICE A2B alert response checklist
+channel: emergency
+published_at: '2026-10-21'
+source_verified_at: '2026-10-21'
+mandatory: true
+rules:
+- id: EMERG-NICT-A2B-LOG-AUDIT
+  title: 【A2B緊急】侵害痕跡のログ調査
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - アプリから利用可能な公開API・サーバとログの保存範囲を洗い出す。
+  - 連番ID探索、大量取得、認証・認可異常と公式PDF記載IoCを調査し、対象期間・検索条件・結果を記録する。調査期間は自社の保管状況と詳細注意喚起を踏まえて決める。
+  excel_mapping:
+    column: 侵害有無のログ確認
+    action_required: 要対応
+- id: EMERG-NICT-A2B-BOLA
+  title: 【A2B緊急】オブジェクト単位の認可確認
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - セッションのユーザー・テナントと要求対象の所有権をサーバ側で照合する。
+  - 他ユーザーのIDに差し替えた取得・変更・削除要求が拒否されることを実行テストする。
+  excel_mapping:
+    column: 認可不備 (IDOR/BOLA)
+    action_required: 要対応
+  pattern: router\.(?:get|post|put|patch|delete)\s*\(\s*[\x27\x22]/api/
+  pattern_semantics: review_candidate
+- id: EMERG-NICT-A2B-SSRF
+  title: 【A2B緊急】SSRFの点検
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - URL入力・リダイレクト・名前解決を確認し、内部ネットワークやメタデータへの到達を制限する。
+  - 許可された試験環境で制限の有効性を検証し、結果を添付する。
+  excel_mapping:
+    column: SSRF
+    action_required: 要対応
+- id: EMERG-NICT-A2B-RCE
+  title: 【A2B緊急】コード・コマンド実行経路の点検
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - 外部入力からコード実行・シェル実行・ファイル処理へ至る経路を点検する。
+  - 危険な呼び出しの除去、入力制約、実行権限の最小化を確認する。
+  excel_mapping:
+    column: RCE
+    action_required: 要対応
+  pattern: \b(?:eval|exec|execSync)\s*\(
+  pattern_semantics: review_candidate
+- id: EMERG-NICT-A2B-SQLI
+  title: 【A2B緊急】SQLインジェクションの点検
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - API入力がSQLへ渡る経路を列挙し、パラメータ化と入力処理の実装・試験結果を確認する。
+  excel_mapping:
+    column: SQLインジェクション
+    action_required: 要対応
+  pattern: (?:query|execute)\s*\(\s*`[^`]*\$\{
+  pattern_semantics: review_candidate
+- id: EMERG-NICT-A2B-EXPOSURE
+  title: 【A2B緊急】不要APIと設定の点検
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - 旧API・検証環境・管理画面を棚卸しし、不要な公開を停止または制限する。
+  - /v1/等のバージョン名だけで危険と断定せず、用途と認証・認可・公開範囲を確認する。
+  excel_mapping:
+    column: 不要な公開範囲 (旧API・検証環境・管理画面)
+    action_required: 要対応
+- id: EMERG-NICT-A2B-MITIGATION
+  title: 【A2B緊急】暫定緩和と認証情報の見直し
+  category: Emergency / NICT A2B 2026-10-13
+  severity: error
+  target_languages:
+  - typescript
+  - javascript
+  - json
+  message: NICT A2B注意喚起を踏まえ、対象APIと運用環境を点検して証跡を提出してください。
+  verification: manual
+  required: true
+  source_urls:
+  - https://cynex.nict.go.jp/library/261013-01.html
+  check_steps:
+  - 不要API停止・アクセス制限・監視強化を検討し、実施内容と残存リスクを記録する。
+  - 漏洩が疑われる認証情報を無効化・再発行する。レート制限の設定と動作を確認する。
+  excel_mapping:
+    column: 暫定的な緩和策
+    action_required: 要対応
+advisory_published_at: '2026-10-13'

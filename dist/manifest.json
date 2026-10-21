@@ -1,0 +1,22 @@
+{
+  "description": "TIP Emergency & Regulatory Threat Rules",
+  "packs": [
+    {
+      "channel": "emergency",
+      "file": "nict-a2b-2026-10.json",
+      "id": "nict-a2b-2026-10",
+      "mandatory": true,
+      "sha256": "f48c8b2f9a0a7738175508a7db43ba72ea217081adc5be9cf10afbf79dc1733d",
+      "version": "2.0.0"
+    },
+    {
+      "channel": "baseline",
+      "file": "owasp-top10-2025.json",
+      "id": "owasp-top10-2025",
+      "mandatory": false,
+      "sha256": "1fae5101969c9e6d476db0059040dba9785c52270af698a54f1243f4dce07522",
+      "version": "2.0.0"
+    }
+  ],
+  "version": "2.0.0"
+}
