@@ -1,4 +1,4 @@
-version: 2.1.0
+version: 2.2.0
 description: TIP Emergency & Regulatory Threat Rules
 rules:
 - id: EMERG-NICT-A2B-LOG-AUDIT
@@ -38,6 +38,11 @@ rules:
   excel_mapping:
     column: 認可不備 (IDOR/BOLA)
     action_required: 要対応
+  detect:
+    type: object_access
+    languages:
+    - typescript
+    - php
 - id: EMERG-NICT-A2B-SSRF
   title: 【A2B緊急】SSRFの点検
   category: Emergency / NICT A2B 2026-10-13

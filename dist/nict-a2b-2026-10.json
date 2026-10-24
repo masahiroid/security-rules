@@ -37,6 +37,13 @@
         "セッションのユーザー・テナントと要求対象の所有権をサーバ側で照合する。",
         "他ユーザーのIDに差し替えた取得・変更・削除要求が拒否されることを実行テストする。"
       ],
+      "detect": {
+        "languages": [
+          "typescript",
+          "php"
+        ],
+        "type": "object_access"
+      },
       "excel_mapping": {
         "action_required": "要対応",
         "column": "認可不備 (IDOR/BOLA)"
@@ -222,5 +229,5 @@
     }
   ],
   "source_verified_at": "2026-10-21",
-  "version": "2.1.0"
+  "version": "2.2.0"
 }

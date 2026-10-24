@@ -1,5 +1,5 @@
 id: nict-a2b-2026-10
-version: 2.1.0
+version: 2.2.0
 description: NICT LETTICE A2B alert response checklist
 channel: emergency
 published_at: '2026-10-21'
@@ -43,6 +43,11 @@ rules:
   excel_mapping:
     column: 認可不備 (IDOR/BOLA)
     action_required: 要対応
+  detect:
+    type: object_access
+    languages:
+    - typescript
+    - php
 - id: EMERG-NICT-A2B-SSRF
   title: 【A2B緊急】SSRFの点検
   category: Emergency / NICT A2B 2026-10-13

@@ -6,8 +6,8 @@
       "file": "nict-a2b-2026-10.json",
       "id": "nict-a2b-2026-10",
       "mandatory": true,
-      "sha256": "a99420a6829f110dd384178253e4eb8dbfaa4a795e23c6e70c975c5ca95bbadd",
-      "version": "2.1.0"
+      "sha256": "643c5cfadb951ca771494b2f21ecf447152af33727219a4ea9e4b87e3a5a9739",
+      "version": "2.2.0"
     },
     {
       "channel": "baseline",
@@ -18,5 +18,5 @@
       "version": "2.1.0"
     }
   ],
-  "version": "2.1.0"
+  "version": "2.2.0"
 }
